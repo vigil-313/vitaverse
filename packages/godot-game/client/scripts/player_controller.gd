@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	# Send state to server if changed
-	if network_client and network_client.is_connected():
+	if network_client and network_client.is_client_connected():
 		if position != last_sent_position or velocity != last_sent_velocity:
 			network_client.send_player_move(position, velocity)
 			last_sent_position = position

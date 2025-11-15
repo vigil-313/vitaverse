@@ -1,6 +1,9 @@
-[gd_scene format=3 uid="uid://main_menu"]
+[gd_scene load_steps=2 format=3 uid="uid://main_menu"]
+
+[ext_resource type="Script" path="res://client/scripts/main_menu.gd" id="1"]
 
 [node name="MainMenu" type="Control"]
+script = ExtResource("1")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

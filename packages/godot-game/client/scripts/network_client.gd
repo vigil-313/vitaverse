@@ -36,6 +36,13 @@ func _ready() -> void:
 	server_host = Config.get_server_host()
 	server_port = Config.get_server_port()
 
+	# Get username from config (set by main menu)
+	username = Config.get_value("username", "Player")
+
+	# Auto-connect to server
+	print("[NetworkClient] Auto-connecting to ", server_host, ":", server_port, " as ", username)
+	connect_to_server()
+
 func _process(delta: float) -> void:
 	# Send periodic ping
 	if connection_state == Protocol.ConnectionState.AUTHENTICATED:
@@ -289,7 +296,7 @@ func _handle_error(packet: Dictionary) -> void:
 ## ============================================================================
 
 ## Check if connected and authenticated
-func is_connected() -> bool:
+func is_client_connected() -> bool:
 	return connection_state == Protocol.ConnectionState.AUTHENTICATED
 
 ## Get connection state string

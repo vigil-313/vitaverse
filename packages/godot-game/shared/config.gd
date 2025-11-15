@@ -5,18 +5,18 @@ extends Node
 ## between development and production environments.
 
 ## Environment types
-enum Environment {
+enum GameEnvironment {
 	DEVELOPMENT,
 	STAGING,
 	PRODUCTION
 }
 
 ## Current environment - change this when deploying
-var current_environment: Environment = Environment.DEVELOPMENT
+var current_environment: GameEnvironment = GameEnvironment.DEVELOPMENT
 
 ## Configuration values per environment
 var configs := {
-	Environment.DEVELOPMENT: {
+	GameEnvironment.DEVELOPMENT: {
 		# Server settings
 		"server_host": "127.0.0.1",
 		"server_port": 9000,
@@ -37,7 +37,7 @@ var configs := {
 		"verbose_logging": true,
 	},
 
-	Environment.STAGING: {
+	GameEnvironment.STAGING: {
 		"server_host": "0.0.0.0",
 		"server_port": 9000,
 		"max_players": 50,
@@ -51,7 +51,7 @@ var configs := {
 		"verbose_logging": true,
 	},
 
-	Environment.PRODUCTION: {
+	GameEnvironment.PRODUCTION: {
 		"server_host": "0.0.0.0",
 		"server_port": 9000,
 		"max_players": 100,
@@ -70,6 +70,12 @@ var configs := {
 func get_value(key: String, default = null):
 	var env_config = configs.get(current_environment, {})
 	return env_config.get(key, default)
+
+## Set a config value for the current environment
+func set_value(key: String, value) -> void:
+	if not configs.has(current_environment):
+		configs[current_environment] = {}
+	configs[current_environment][key] = value
 
 ## Convenience getters for common config values
 func get_server_host() -> String:
@@ -91,9 +97,9 @@ func get_db_path() -> String:
 	return get_value("db_path", "user://vitaverse.db")
 
 ## Set environment (useful for testing)
-func set_environment(env: Environment) -> void:
+func set_environment(env: GameEnvironment) -> void:
 	current_environment = env
-	print("[Config] Environment set to: ", Environment.keys()[env])
+	print("[Config] Environment set to: ", GameEnvironment.keys()[env])
 
 ## Load environment from environment variable or command line
 func _ready() -> void:
@@ -102,11 +108,11 @@ func _ready() -> void:
 	if env_var:
 		match env_var.to_upper():
 			"DEVELOPMENT", "DEV":
-				current_environment = Environment.DEVELOPMENT
+				current_environment = GameEnvironment.DEVELOPMENT
 			"STAGING":
-				current_environment = Environment.STAGING
+				current_environment = GameEnvironment.STAGING
 			"PRODUCTION", "PROD":
-				current_environment = Environment.PRODUCTION
+				current_environment = GameEnvironment.PRODUCTION
 
 	# Check command line arguments
 	var args = OS.get_cmdline_args()
@@ -115,10 +121,10 @@ func _ready() -> void:
 			var env_str = arg.split("=")[1].to_upper()
 			match env_str:
 				"DEVELOPMENT", "DEV":
-					current_environment = Environment.DEVELOPMENT
+					current_environment = GameEnvironment.DEVELOPMENT
 				"STAGING":
-					current_environment = Environment.STAGING
+					current_environment = GameEnvironment.STAGING
 				"PRODUCTION", "PROD":
-					current_environment = Environment.PRODUCTION
+					current_environment = GameEnvironment.PRODUCTION
 
-	print("[Config] Running in ", Environment.keys()[current_environment], " mode")
+	print("[Config] Running in ", GameEnvironment.keys()[current_environment], " mode")

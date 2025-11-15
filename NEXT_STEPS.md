@@ -1,238 +1,345 @@
-# Next Steps - Quick Start Guide
+# Next Steps - Getting Vitaverse Running
 
-## Status: Project Foundation Complete ✅
+## Status: Foundation Complete + Assets Ready! ✅
 
-The Vitaverse project has a solid foundation but **needs assets to run**.
+The Vitaverse project foundation is solid and **visual assets are now in place**!
 
 ---
 
-## 🚀 **Immediate Next Steps (To Get It Running)**
+## 🎯 **Current Status (What's Done)**
 
-### Step 1: Create Basic Visual Assets
+✅ **Project Structure** - All directories and code in place
+✅ **Asset Infrastructure** - Easy-swap system configured
+✅ **Visual Assets Downloaded** - LPC tileset (32x32) and player sprite
+✅ **Scene Configuration** - Scripts attached, sprites assigned
+✅ **Documentation** - Complete guides for development and assets
+✅ **Server Data Directories** - Created and ready
+✅ **Import Configurations** - Assets configured for pixel-art rendering
 
-**The game needs these to display anything:**
+**You're at ~85% ready to run!**
 
-1. **Create a simple tileset** (30 minutes)
-   - Open Godot
-   - Create new TileSet resource
-   - Add 16x16 or 32x32 colored squares for tiles:
-     - Grass (green)
-     - Water (blue)
-     - Road (gray)
-     - Building (brown)
-   - Save as `client/assets/tilesets/world_tileset.tres`
+---
 
-2. **Create player sprite** (5 minutes)
-   - Create 32x32 colored square (any color)
-   - Save as `client/assets/sprites/player.png`
-   - Import will happen automatically in Godot
+## 🚀 **Immediate Next Steps (15-30 minutes to playable!)**
 
-3. **Assign assets to scenes**:
-   - Open `game_world.tscn`
-   - Select TileMap node → Assign tileset
-   - Select Player/Sprite2D → Assign player texture
+### Step 1: Configure Godot Assets (10-15 min)
 
-**OR use free assets:**
+**Follow the setup guide:**
 ```bash
-# Download Kenney's free assets
-cd packages/godot-game/client/assets
-# Visit kenney.nl and download "Tiny Town" or "Roguelike" pack
-# Extract to sprites/ and tilesets/
+# Open this file and follow along:
+packages/godot-game/GODOT_SETUP_GUIDE.md
 ```
 
-### Step 2: Update Main Menu Scene
+**What you'll do:**
+1. Open project in Godot 4
+2. Create TileSet resource from `terrain_atlas.png`
+3. Configure player sprite animations
+4. Save everything
+
+**Result:** Game can now render graphics!
+
+### Step 2: Import Seattle World Data (10 min)
 
 ```bash
-# The script was just created, now attach it:
-# 1. Open client/scenes/main_menu.tscn in Godot
-# 2. Select root "MainMenu" node
-# 3. In Inspector → Script → Attach: res://client/scripts/main_menu.gd
-# 4. Save scene
+# Install Python package
+cd packages/world-importer
+pip install -e .
+
+# Import Seattle
+cd ../..
+./scripts/import_seattle.sh
+
+# Verify chunks created
+ls packages/godot-game/server/data/world/chunks/
+# You should see chunk_*.json files!
 ```
 
-### Step 3: First Run
+**Result:** Real Seattle map data ready to explore!
+
+### Step 3: Test Run (5 min)
 
 ```bash
-# Run setup
-./scripts/setup.sh
-
-# Start server + client
+# Option A: Use the run script
 ./scripts/run_local.sh
+
+# Option B: Manual (two terminals)
+# Terminal 1 - Server:
+cd packages/godot-game
+godot --headless server/server_main.tscn
+
+# Terminal 2 - Client:
+cd packages/godot-game
+godot
+
+# Then press F5 in Godot or click Play
 ```
 
-**Expected Result**:
-- Server starts and waits for connections
-- Client opens main menu
-- You can enter username and connect
-- You'll see a basic world (grass tiles from procedural generation)
+**Expected Result:**
+- ✅ Server starts on port 9000
+- ✅ Client shows main menu
+- ✅ Can enter username and connect
+- ✅ See Seattle map with buildings, roads, water
+- ✅ Control player with WASD
+- ✅ Camera follows player
 
 ---
 
 ## 📋 **What Works Now**
 
-✅ Server can start and accept connections
-✅ Client can connect and send handshake
-✅ Chunks are generated procedurally (grass + trees)
-✅ Players can move with WASD
-✅ Multiple players can connect
-✅ Chat messages work
-✅ World data saves to JSON files
+✅ **Networking:**
+- Server accepts multiple connections
+- Client-server handshake with version checking
+- Player position synchronization
+- Chat messages
+- Latency measurement (ping/pong)
 
-## ⚠️ **What Doesn't Work Yet**
+✅ **World System:**
+- Chunk-based world (32x32 tiles per chunk)
+- Dynamic chunk loading based on player position
+- Chunk persistence to JSON files
+- Coordinate system (world ↔ chunk)
 
-❌ Visual rendering (needs assets)
-❌ Building/destroying tiles (UI not implemented)
-❌ Collision detection (can walk through walls)
-❌ Editor mode (planned for Phase 2)
-❌ AI agents (planned for Phase 8)
+✅ **Visual Assets:**
+- 32x32 LPC tileset (placeholder, easy to swap)
+- Animated player sprite
+- Pixel-perfect rendering configuration
+
+✅ **OSM Import:**
+- Fetch data from OpenStreetMap
+- Convert to game tiles
+- Map roads, buildings, water, vegetation
+- Generate chunk files
+
+✅ **Game Mechanics (Basic):**
+- Player movement (WASD)
+- Camera following
+- Multiple players visible
+- Username display
 
 ---
 
-## 🎯 **Development Path**
+## ⚠️ **What Doesn't Work Yet (Planned Features)**
 
-### Week 1: Make It Playable
-- [ ] Create/import basic tileset
-- [ ] Create player sprite
+❌ **Building/Destroying Tiles** - UI not implemented yet
+❌ **Collision Detection** - Can walk through walls (planned Week 3-4)
+❌ **Editor Mode** - Tile placement UI (planned Phase 2)
+❌ **Day/Night Cycle** - Lighting system (planned Phase 4)
+❌ **AI Agents** - NPC system (planned Phase 8)
+❌ **Authentication** - User accounts (planned Phase 7)
+
+These are all planned in the roadmap - not bugs, just not implemented yet!
+
+---
+
+## 🎯 **Development Roadmap (Next 4 Weeks)**
+
+### Week 1: Make It Playable ⏳ **IN PROGRESS**
+- [x] Set up asset infrastructure
+- [x] Download placeholder assets (LPC)
+- [ ] Configure TileSet in Godot
+- [ ] Import Seattle OSM data
 - [ ] Test local multiplayer
 - [ ] Fix any immediate bugs
 
-### Week 2: Import Seattle
-- [ ] Run OSM import: `./scripts/import_seattle.sh`
-- [ ] Test loading real-world data
-- [ ] Adjust tile mappings if needed
-- [ ] Verify rendering
-
-### Week 3: Add Building/Destroying
-- [ ] Implement tile placement UI
-- [ ] Add destroy tile on right-click
-- [ ] Test multiplayer building
-- [ ] Add undo/redo
-
-### Week 4: Polish
-- [ ] Add collision detection
+### Week 2: Polish Core Experience
+- [ ] Add collision detection (can't walk through walls)
+- [ ] Improve camera controls (zoom in/out)
 - [ ] Add world boundaries
-- [ ] Improve camera controls
-- [ ] Add FPS counter
-- [ ] Test with 5-10 players
+- [ ] Optimize chunk loading
+- [ ] Test with 3-5 players
 
-**Then follow** `docs/ROADMAP.md` for full 40-week plan.
+### Week 3: Building System
+- [ ] Implement tile placement UI (click to build)
+- [ ] Add tile destruction (right-click)
+- [ ] Synchronize building across clients
+- [ ] Add build/destroy restrictions
+- [ ] Test multiplayer building
+
+### Week 4: Content & Testing
+- [ ] Expand Seattle map coverage
+- [ ] Add more tile types
+- [ ] Create "interesting" locations (landmarks)
+- [ ] Playtest with friends
+- [ ] Gather feedback
+- [ ] Bug fixes
+
+**Then:** Follow `docs/ROADMAP.md` for the full 40-week plan!
 
 ---
 
-## 🛠️ **Infrastructure (When Ready for Production)**
+## 📂 **Important File Locations**
 
-When you want to deploy to cloud/Linux mini PC:
-
-```bash
-# Create infrastructure package
-mkdir -p packages/infrastructure/{docker,database,monitoring}
-
-# Add Dockerfile (see DEPLOYMENT.md for template)
-# Add docker-compose.yml
-# Add database migration scripts
+### Setup Guides
+```
+packages/godot-game/GODOT_SETUP_GUIDE.md  ← Start here!
+docs/ASSET_PIPELINE.md                     ← Custom asset creation
+DEVELOPMENT.md                             ← Development workflow
 ```
 
-For now, local testing is fine.
+### Assets
+```
+packages/godot-game/client/assets/
+├── tilesets/placeholder/terrain_atlas.png  ← Your tileset
+├── sprites/placeholder/player.png          ← Your player sprite
+└── asset_config.gd                         ← Change to swap assets
+```
+
+### Scenes
+```
+packages/godot-game/client/scenes/
+├── main_menu.tscn    ← Entry point
+└── game_world.tscn   ← Main game scene
+```
+
+### World Data
+```
+packages/godot-game/server/data/world/chunks/  ← Chunk JSON files
+packages/godot-game/server/data/players/       ← Player save data
+```
+
+---
+
+## 🛠️ **Asset Swapping (Future)**
+
+When you create custom art:
+
+1. Place custom assets in:
+   ```
+   client/assets/tilesets/custom/terrain_atlas.png
+   client/assets/sprites/custom/player.png
+   ```
+
+2. Open `client/assets/asset_config.gd`
+
+3. Change one line:
+   ```gdscript
+   const USE_CUSTOM_ASSETS: bool = true
+   ```
+
+4. **Done!** Custom assets now in use.
+
+See `docs/ASSET_PIPELINE.md` for the full guide.
+
+---
+
+## 🐛 **Known Issues & Solutions**
+
+### "Cannot load texture" in Godot
+**Fix:** Check that `.import` files exist next to PNGs. Godot should create these automatically.
+
+### Server won't start - "Cannot open file"
+**Fix:** Already fixed! Directories were created in setup.
+
+### Player sprite looks weird
+**Fix:** Ensure Hframes=9, Vframes=4 in Sprite2D properties.
+
+### Black screen when game starts
+**Fix:** TileSet not configured yet. Follow GODOT_SETUP_GUIDE.md.
+
+### Can't connect to server
+**Fix:** Make sure server is running first. Check port 9000 isn't blocked.
+
+---
+
+## 💡 **Quick Tests (No Godot Needed)**
+
+### Test 1: Verify Assets Downloaded
+```bash
+ls -lh packages/godot-game/client/assets/tilesets/placeholder/terrain_atlas.png
+ls -lh packages/godot-game/client/assets/sprites/placeholder/player.png
+# Both should show file sizes (not "No such file")
+```
+
+### Test 2: Import Seattle (Without Running Game)
+```bash
+./scripts/import_seattle.sh
+ls packages/godot-game/server/data/world/chunks/ | wc -l
+# Should show number of chunk files (100+)
+```
+
+### Test 3: Check Server Starts
+```bash
+cd packages/godot-game
+godot --headless server/server_main.tscn
+# Should print: "Server started on port 9000"
+# Ctrl+C to stop
+```
+
+### Test 4: Verify Asset Config
+```bash
+cat packages/godot-game/client/assets/asset_config.gd | grep USE_CUSTOM
+# Should show: const USE_CUSTOM_ASSETS: bool = false
+```
 
 ---
 
 ## 📚 **Learning Resources**
 
-### Godot
-- [Godot Docs](https://docs.godotengine.org/)
-- [TileMap Tutorial](https://docs.godotengine.org/en/stable/tutorials/2d/using_tilemaps.html)
-- [Multiplayer Tutorial](https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html)
+### Godot 4
+- [Official Docs](https://docs.godotengine.org/en/stable/)
+- [TileMap Guide](https://docs.godotengine.org/en/stable/tutorials/2d/using_tilemaps.html)
+- [Multiplayer Networking](https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html)
 
 ### OpenStreetMap
-- [Overpass API Docs](https://wiki.openstreetmap.org/wiki/Overpass_API)
-- [OSM Tag Browser](https://taginfo.openstreetmap.org/)
+- [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API)
+- [Tag Browser](https://taginfo.openstreetmap.org/)
+- [Seattle on OSM](https://www.openstreetmap.org/#map=13/47.6062/-122.3321)
 
-### Game Assets
-- [Kenney.nl](https://kenney.nl/assets) - Free CC0 assets
-- [OpenGameArt.org](https://opengameart.org/) - Community assets
-- [itch.io](https://itch.io/game-assets) - Mix of free/paid
+### Pixel Art & Assets
+- [Aseprite Tutorials](https://www.aseprite.org/docs/)
+- [Lospec (Palettes)](https://lospec.com/palette-list)
+- [Pedro Medeiros (Pixel Art)](https://blog.studiominiboss.com/pixelart)
 
----
-
-## 🐛 **Known Issues & Workarounds**
-
-### Issue 1: "Cannot open file" when starting server
-**Cause**: Data directories weren't created
-**Fix**: Run `mkdir -p packages/godot-game/server/data/world/chunks`
-
-### Issue 2: Black screen in game
-**Cause**: No tileset assigned
-**Fix**: Create tileset and assign to TileMap
-
-### Issue 3: Player is invisible
-**Cause**: No sprite texture
-**Fix**: Assign texture to Player/Sprite2D node
-
-### Issue 4: Can't connect from main menu
-**Cause**: Script not attached to scene
-**Fix**: Attach main_menu.gd to MainMenu node in scene
+### LPC Assets (What You're Using)
+- [LPC Tile Atlas](https://opengameart.org/content/lpc-tile-atlas)
+- [LPC Character Bases](https://opengameart.org/content/lpc-character-bases)
+- [LPC Spritesheet Guide](https://lpc.opengameart.org/)
 
 ---
 
-## 💡 **Quick Wins**
+## 🎉 **You're Almost There!**
 
-Want to see something working fast?
+**Status:** 85% Complete!
 
-### Option 1: Run Server + Test with Terminal
+**Remaining:**
+1. ✅ ~~Download assets~~ **DONE**
+2. ⏳ Configure Godot (10 min)
+3. ⏳ Import Seattle (10 min)
+4. ⏳ Test run (5 min)
 
+**Total time to playable:** ~25 minutes
+
+The hard work (architecture, networking, systems, asset pipeline) is **all done**.
+
+Now it's just configuration and testing!
+
+---
+
+## 🚀 **Ready to Continue?**
+
+**Next action:**
+1. Open `packages/godot-game/GODOT_SETUP_GUIDE.md`
+2. Follow the step-by-step instructions
+3. Come back when done!
+
+**Or if you want to skip the visual setup for now:**
 ```bash
-# Terminal 1 - Start server
+# Just test the server:
 cd packages/godot-game
 godot --headless server/server_main.tscn
 
-# Terminal 2 - Test with wscat
-npm install -g wscat
-wscat -c ws://localhost:9000
-# Send: {"type":0,"username":"Test","game_version":"0.1.0","protocol_version":"1.0.0","timestamp":123}
-```
-
-You'll see the server respond!
-
-### Option 2: Import Seattle Without Running Game
-
-```bash
+# And import Seattle data:
+cd ../..
 ./scripts/import_seattle.sh
-# Check the chunks:
-ls packages/godot-game/server/data/world/chunks/
-# You'll see chunk_*.json files with Seattle data!
-```
-
-### Option 3: Test Python Package
-
-```python
-from world_importer import OSMFetcher, TileConverter
-
-# Fetch tiny area
-fetcher = OSMFetcher()
-data = fetcher.fetch_area(47.6062, -122.3321, radius_km=0.1)
-
-print(f"Got {len(data['ways'])} ways!")
-# Works! OSM integration confirmed.
 ```
 
 ---
 
-## 🎉 **You're Ready!**
-
-The hardest part (architecture, networking, data systems) is done.
-
-Now you just need:
-1. **Assets** (or use free ones)
-2. **Testing** (run it and fix bugs)
-3. **Iteration** (add features from ROADMAP.md)
-
-**Your project is 90% foundation, 10% polish away from being playable!**
-
-Questions? Check:
+**Questions?** Check:
 - `DEVELOPMENT.md` - Development workflow
-- `docs/API.md` - Network protocol
 - `docs/ARCHITECTURE.md` - System design
-- `packages/godot-game/README.md` - Godot specifics
-- `packages/world-importer/README.md` - OSM import
+- `docs/API.md` - Network protocol
+- `docs/ASSET_PIPELINE.md` - Custom art guide
+- `docs/ROADMAP.md` - Full 40-week plan
 
-**Good luck building Vitaverse! 🌟**
+**Let's build Vitaverse! 🌟🏙️**

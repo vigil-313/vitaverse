@@ -19,6 +19,19 @@ func _ready() -> void:
 	# Make this the active camera
 	make_current()
 
+func _unhandled_input(event: InputEvent) -> void:
+	# Handle mouse wheel zoom
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
+			_apply_zoom(zoom_speed)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
+			_apply_zoom(-zoom_speed)
+
+func _apply_zoom(delta: float) -> void:
+	var new_zoom = zoom.x + delta
+	new_zoom = clamp(new_zoom, min_zoom, max_zoom)
+	zoom = Vector2(new_zoom, new_zoom)
+
 func _process(delta: float) -> void:
 	# Follow target
 	if target:
@@ -33,12 +46,7 @@ func _process(delta: float) -> void:
 func _handle_zoom() -> void:
 	var zoom_delta = 0.0
 
-	# Mouse wheel zoom
-	if Input.is_action_just_released("ui_scroll_up"):
-		zoom_delta = zoom_speed
-	elif Input.is_action_just_released("ui_scroll_down"):
-		zoom_delta = -zoom_speed
-
+	# Mouse wheel zoom is handled in _unhandled_input
 	# Keyboard zoom (optional: + and -)
 	if Input.is_action_pressed("ui_page_up"):
 		zoom_delta = zoom_speed * 0.1

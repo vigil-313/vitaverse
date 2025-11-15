@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://game_world"]
+[gd_scene load_steps=7 format=3 uid="uid://bfepvxojvlgyw"]
 
-[ext_resource type="Script" path="res://client/scripts/network_client.gd" id="1"]
-[ext_resource type="Script" path="res://client/scripts/world_renderer.gd" id="2"]
-[ext_resource type="Script" path="res://client/scripts/player_controller.gd" id="3"]
-[ext_resource type="Script" path="res://client/scripts/camera_controller.gd" id="4"]
+[ext_resource type="Script" uid="uid://ch5h2nx1qkrxc" path="res://client/scripts/network_client.gd" id="1"]
+[ext_resource type="Script" uid="uid://bppcmyi66eubn" path="res://client/scripts/world_renderer.gd" id="2"]
+[ext_resource type="Script" uid="uid://cseuvfd45e58q" path="res://client/scripts/player_controller.gd" id="3"]
+[ext_resource type="TileSet" uid="uid://d3lnrbng16iry" path="res://client/assets/tilesets/placeholder/terrain_atlas.tres" id="3_u7bnr"]
+[ext_resource type="Script" uid="uid://ghr1kdtfymmo" path="res://client/scripts/camera_controller.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://c2dyah04ygk1i" path="res://client/assets/sprites/placeholder/player.png" id="5"]
 
 [node name="GameWorld" type="Node2D"]
 
@@ -14,11 +16,16 @@ script = ExtResource("1")
 script = ExtResource("2")
 
 [node name="TileMap" type="TileMap" parent="WorldRenderer"]
+tile_set = ExtResource("3_u7bnr")
+format = 2
 
 [node name="Player" type="CharacterBody2D" parent="."]
 script = ExtResource("3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("5")
+hframes = 9
+vframes = 4
 
 [node name="Label" type="Label" parent="Player"]
 offset_top = -40.0

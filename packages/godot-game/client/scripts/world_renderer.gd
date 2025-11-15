@@ -37,7 +37,7 @@ func _update_chunk_streaming() -> void:
 
 ## Request chunks around player
 func _request_nearby_chunks() -> void:
-	if not network_client or not network_client.is_connected():
+	if not network_client or not network_client.is_client_connected():
 		return
 
 	# Request chunks in view radius
